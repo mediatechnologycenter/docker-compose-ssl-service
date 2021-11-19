@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-
+  ##### Add the next two services to your docker-compose file for full ssl support ######
   ssl-service:
     build: ./ssl-service
     ports:
@@ -9,14 +9,14 @@ services:
       - "letsencrypt:/etc/letsencrypt"
       - "var_letsencrypt:/var/lib/letsencrypt"
     env_file:
-      - ssl.env
+      - .env
     command: /src/scripts/run_nginx.sh
     restart: unless-stopped
 
   certbot:
     image: certbot/certbot
-    command: certonly -n --standalone --agree-tos --email marcwi@inf.ethz.ch -d
-      test-dev.mediatechnologycenter.ch -d www.test-dev.mediatechnologycenter.ch
+    command: certonly -n --standalone --agree-tos --email ${SSL_EMAIL?err} -d
+      ${BASE_URL?err} -d ${WWW_URL?err}
     ports:
       - 80:80
     volumes:
@@ -31,6 +31,7 @@ services:
     restart: unless-stopped
     depends_on:
       - ssl-service
+
 volumes:
   letsencrypt: {}
   var_letsencrypt: {}
