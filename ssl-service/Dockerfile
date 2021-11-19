@@ -6,3 +6,5 @@ COPY deployment/nginx.default.conf.template /etc/nginx/templates/default.conf.te
 COPY deployment/wait-for-certbot.sh /docker-entrypoint.d/00-wait-for-certbot.sh
 
 COPY deployment/run_nginx.sh /src/scripts/run_nginx.sh
+
+RUN chmod +x /src/scripts/run_nginx.sh
