@@ -10,6 +10,7 @@ services:
       - "var_letsencrypt:/var/lib/letsencrypt"
     env_file:
       - ssl.env
+    command: ./deployment/run_nginx.sh
     restart: unless-stopped
 
   certbot:

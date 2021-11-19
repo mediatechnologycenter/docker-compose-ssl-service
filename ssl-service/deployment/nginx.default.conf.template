@@ -4,12 +4,12 @@
 
 server {
     # Reroute all requests to the secure connection except for acme challange
-    if ($host = ${WWW_URL}) {
-        return 301 https://$host$request_uri;
+    if (${DOLLAR}host = ${WWW_URL}) {
+        return 301 https://${DOLLAR}host${DOLLAR}request_uri;
     } # managed by Certbot
 
-    if ($host = ${BASE_URL}) {
-        return 301 https://$host$request_uri;
+    if (${DOLLAR}host = ${BASE_URL}) {
+        return 301 https://${DOLLAR}host${DOLLAR}request_uri;
     } # managed by Certbot
 
 	listen 80 ;
