@@ -27,7 +27,7 @@ services:
   frontend:
     build: ./example-frontend
     ports:
-      - 81:81
+      - ${FRONTEND_PORT?err}:${FRONTEND_PORT?err}
     restart: unless-stopped
     depends_on:
       - ssl-service
