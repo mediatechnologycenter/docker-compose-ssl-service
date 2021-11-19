@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+
+  ssl-service:
+    build: ./ssl-service
+    ports:
+      - 443:443
+    volumes:
+      - "letsencrypt:/etc/letsencrypt"
+      - "var_letsencrypt:/var/lib/letsencrypt"
+    env_file:
+      - ssl.env
+    restart: unless-stopped
+
+  certbot:
+    image: certbot/certbot
+    command: certonly -n --standalone --agree-tos --email marcwi@inf.ethz.ch -d
+      test-dev.mediatechnologycenter.ch -d www.test-dev.mediatechnologycenter.ch
+    ports:
+      - 80:80
+    volumes:
+      - "letsencrypt:/etc/letsencrypt"
+      - "var_letsencrypt:/var/lib/letsencrypt"
+  # Add your frontend configuration here
+  # frontend:
+  #   build: ./example-frontend
+  #   ports:
+  #     - 81:81
+  #   restart: unless-stopped

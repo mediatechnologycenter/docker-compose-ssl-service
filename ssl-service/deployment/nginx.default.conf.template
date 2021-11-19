@@ -1,0 +1,40 @@
+# Generally we have two ports availble for communication a port 80 and 443
+# Here we keep the 80 open but only for redirections to the acme challange for new certificates
+# The 443 we keep open for the normal traffic
+
+server {
+    # Reroute all requests to the secure connection except for acme challange
+    if ($host = ${WWW_URL}) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+    if ($host = ${BASE_URL}) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+	listen 80 ;
+	listen [::]:80 ;
+    return 404;
+
+    # Define the connection where certbot can find the acme challenge
+    location /.well-known/acme-challenge/ { # Defined by MTC
+        root /var/www/certbot; # Defined by MTC
+    } # Defined by MTC
+}
+
+server {
+    # General settings
+    server_name ${BASE_URL};
+    ssl_certificate /etc/letsencrypt/live/${BASE_URL}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/${BASE_URL}/privkey.pem;
+
+    # Port listeners
+    listen [::]:443 ssl;
+    listen 443 ssl;
+
+    # Reroute your requests to the wished proxies
+    location / {
+        proxy_pass http://frontend:${FRONTEND_PORT};
+    }
+
+}
