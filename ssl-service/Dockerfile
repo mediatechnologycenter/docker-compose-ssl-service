@@ -4,3 +4,5 @@ FROM nginx:stable-alpine
 COPY deployment/nginx.default.conf.template /etc/nginx/templates/default.conf.template
 # We want to wait for the certbot certificate to be loaded
 COPY deployment/wait-for-certbot.sh /docker-entrypoint.d/00-wait-for-certbot.sh
+
+COPY deployment/run_nginx.sh /src/scripts/run_nginx.sh
