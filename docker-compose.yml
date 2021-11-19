@@ -21,9 +21,13 @@ services:
     volumes:
       - "letsencrypt:/etc/letsencrypt"
       - "var_letsencrypt:/var/lib/letsencrypt"
-  # Add your frontend configuration here
-  # frontend:
-  #   build: ./example-frontend
-  #   ports:
-  #     - 81:81
-  #   restart: unless-stopped
+
+#  Add your frontend configuration here
+#  frontend:
+#    build: ./example-frontend
+#    ports:
+#      - 81:81
+#    restart: unless-stopped
+volumes:
+  letsencrypt: {}
+  var_letsencrypt: {}
