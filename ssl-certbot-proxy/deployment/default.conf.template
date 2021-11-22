@@ -10,6 +10,6 @@ server {
 
     # Define the connection where certbot can find the acme challenge
     location /.well-known/acme-challenge/ { # Defined by MTC
-        proxy_pass http://ssl-certbot-proxy:80;
+        root /var/www/certbot; # Defined by MTC
     } # Defined by MTC
 }

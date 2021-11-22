@@ -19,6 +19,9 @@ services:
       - 80:80
     env_file:
       - .env
+    volumes:
+      - "letsencrypt:/etc/letsencrypt"
+      - "var_letsencrypt:/var/lib/letsencrypt"
 
   certbot:
     image: certbot/certbot
