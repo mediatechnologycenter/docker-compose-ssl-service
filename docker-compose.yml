@@ -6,6 +6,7 @@ services:
     build: ./ssl-service
     ports:
       - 443:443
+      - 80:80
     volumes:
       - "letsencrypt:/etc/letsencrypt"
       - "var_letsencrypt:/var/lib/letsencrypt"
@@ -17,8 +18,6 @@ services:
     image: certbot/certbot
     command: certonly -n --standalone --agree-tos --email ${SSL_EMAIL:?err} -d
       ${BASE_URL:?err} -d www.${BASE_URL:?err}
-    ports:
-      - 80:80
     volumes:
       - "letsencrypt:/etc/letsencrypt"
       - "var_letsencrypt:/var/lib/letsencrypt"
