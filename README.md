@@ -43,7 +43,7 @@ volumes:
 ```conf
 ##### SSL ENV VARIABLES ###### 
 BASE_URL = test-dev.mediatechnologycenter.ch
-SSL_EMAIL = marcwi@inf.ethz.ch
+SSL_EMAIL = mtc@inf.ethz.ch
 FRONTEND_PORT = 80
 ```
 3. Run `docker-compose up --build`.
