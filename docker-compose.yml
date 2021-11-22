@@ -10,9 +10,6 @@ services:
     volumes:
       - "letsencrypt:/etc/letsencrypt"
       - "var_letsencrypt:/var/lib/letsencrypt"
-    depends_on:
-      certbot:
-        condition: service_healthy
     env_file:
       - .env
     restart: unless-stopped
