@@ -17,6 +17,8 @@ services:
     build: ./ssl-certbot-proxy
     ports:
       - 80:80
+    env_file:
+      - .env
 
   certbot:
     image: certbot/certbot
