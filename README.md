@@ -5,6 +5,7 @@
 A standalone docker ssl service. It can be attached to the regular front-end application through port 81.
 
 ## Overview
+
 <img src="example-frontend/SSL-Service-Overview.png" width="500" alt="ssl-overview">
 
 ## How to use it
@@ -34,32 +35,43 @@ A standalone docker ssl service. It can be attached to the regular front-end app
   frontend:
     restart: unless-stopped
 
-volumes:
-  letsencrypt: {}
-  var_letsencrypt: {}
+  volumes:
+    letsencrypt: { }
+    var_letsencrypt: { }
 ```
 
 2. Add the ssl-variables to your `.env`-file or copy the existing one. Obviously adjust them to your website.
+
 ```conf
 ##### SSL ENV VARIABLES ###### 
 BASE_URL = test-dev.mediatechnologycenter.ch
 SSL_EMAIL = mtc@inf.ethz.ch
 FRONTEND_URL = http://frontend:80
 ```
+
 3. Run `docker-compose up --build`.
 4. Enjoy!
-5. If you would like to run it without ssl use a second docker-compose file. e.g. docker-compose.dev.yml.
-   You can run it with `docker-compose up -f docker-compose.yml -f docker-compose.dev.yml`
+5. If you would like to run it without ssl use a second docker-compose file. e.g. docker-compose.dev.yml. You can run it
+   with `docker-compose up -f docker-compose.yml -f docker-compose.dev.yml`
+
 ```yml
   ssl-service:
     profiles:
-        - disabled
+      - disabled
   certbot:
     profiles:
-        - disabled
+      - disabled
   frontend:
     ports:
       - 3000:3000 # Example dev port
   # Add your dev configuration here
 ```
 
+# Known issues
+- HTTP to HTTPS forwarding currently does not work. In order to fix it, a profile can be added to certbot service, so that it can be started prior
+to deployment in order to request a certificate, but not during deployment of the project. This then allows the ssl-service to also open port 80 for forwarding.
+
+In order to fix the above issue, we propose the following changes to the ssl-service:
+- Provide self signed cert to be used before certbot cert is available.
+- Forward port 80 to 443 as is, except for certbot requests, which are rerouted to certbot service
+- Restart nginx with new certificate once provided by certbot
