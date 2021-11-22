@@ -3,18 +3,6 @@
 # The 443 we keep open for the normal traffic
 
 server {
-    listen 80 ;
-    location / {  # the default location redirects to https
-        return 301 ${NGINX_REROUTE};
-    }    
-
-    # Define the connection where certbot can find the acme challenge
-    location /.well-known/acme-challenge/ { # Defined by MTC
-        root /var/www/certbot; # Defined by MTC
-    } # Defined by MTC
-}
-
-server {
     # General settings
     server_name ${BASE_URL};
     ssl_certificate /etc/letsencrypt/live/${BASE_URL}/fullchain.pem;

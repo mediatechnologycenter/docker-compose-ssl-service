@@ -13,12 +13,16 @@ services:
       - .env
     restart: unless-stopped
 
+  ssl-certbot-proxy:
+    image: nginx:stable-alpine
+    build: ./ssl-certbot-proxy
+    ports:
+      - 80:80
+
   certbot:
     image: certbot/certbot
     command: certonly -n --standalone --agree-tos --email ${SSL_EMAIL:?err} -d
       ${BASE_URL:?err} -d www.${BASE_URL:?err}
-    ports:
-      - 80:80
     volumes:
       - "letsencrypt:/etc/letsencrypt"
       - "var_letsencrypt:/var/lib/letsencrypt"
