@@ -25,8 +25,6 @@ services:
   #  Add your frontend configuration here
   frontend:
     build: ./example-frontend
-    ports:
-      - ${FRONTEND_PORT:?err}:${FRONTEND_PORT:?err}
     restart: unless-stopped
     depends_on:
       - ssl-service
