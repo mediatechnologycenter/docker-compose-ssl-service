@@ -17,6 +17,9 @@ services:
     build: ./ssl-certbot-proxy
     ports:
       - 80:80
+    volumes:
+      - "letsencrypt:/etc/letsencrypt"
+      - "var_letsencrypt:/var/lib/letsencrypt"
 
   certbot:
     image: certbot/certbot
