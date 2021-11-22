@@ -27,8 +27,6 @@ services:
   frontend:
     build: ./example-frontend
     restart: unless-stopped
-    depends_on:
-      - ssl-service
 
 volumes:
   letsencrypt: {}

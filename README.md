@@ -1,5 +1,7 @@
 # ssl-certificate-docker-service
 
+<img src="https://img.shields.io/static/v1?label=status&message=in-review&color=orange">
+
 A standalone docker ssl service. It can be attached to the regular front-end application through port 81.
 
 ## Overview
@@ -7,28 +9,57 @@ A standalone docker ssl service. It can be attached to the regular front-end app
 
 ## How to use it
 
-1. Add the folder certbot and ssl-service to your service folder structure. You can also clone it but be careful with the build folder directories in the docker-compose file.
+1. Add the two services `ssl-service` and `certbot` to your docker-compose file.
 
-2. Add the two services `ssl-service` and `certbot` to your docker-compose file.
+```yaml
+  ssl-service:
+    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-service:latest
+    ports:
+      - 443:443
+    volumes:
+      - "letsencrypt:/etc/letsencrypt"
+      - "var_letsencrypt:/var/lib/letsencrypt"
+    env_file:
+      - .env
+    restart: unless-stopped
 
-3. Add the ssl-variables to your `.env`-file or copy the existing one. Obviously adjust them to your website.
+  certbot:
+    image: certbot/certbot
+    command: certonly -n --standalone --agree-tos --email ${SSL_EMAIL:?err} -d
+      ${BASE_URL:?err} -d www.${BASE_URL:?err}
+    ports:
+      - 80:80
+    volumes:
+      - "letsencrypt:/etc/letsencrypt"
+  frontend:
+    restart: unless-stopped
+
+volumes:
+  letsencrypt: {}
+  var_letsencrypt: {}
+```
+
+2. Add the ssl-variables to your `.env`-file or copy the existing one. Obviously adjust them to your website.
 ```conf
 ##### SSL ENV VARIABLES ###### 
 BASE_URL = test-dev.mediatechnologycenter.ch
-WWW_URL = www.test-dev.mediatechnologycenter.ch
 SSL_EMAIL = marcwi@inf.ethz.ch
-FRONTEND_PORT = 81
+FRONTEND_PORT = 80
 ```
-4. Add the right port, restart and depends-on policy to your frontend service:
+3. Run `docker-compose up --build`.
+4. Enjoy!
+5. If you would like to run it without ssl use a second docker-compose file. e.g. docker-compose.dev.yml.
+   You can run it with `docker-compose up -f docker-compose.yml -f docker-compose.dev.yml`
 ```yml
+  ssl-service:
+    profiles:
+        - disabled
+  certbot:
+    profiles:
+        - disabled
   frontend:
-    build: ./your-frontend-service-folder
     ports:
-      - ${FRONTEND_PORT?err}:${FRONTEND_PORT?err}
-    restart: unless-stopped
-    depends_on:
-      - ssl-service
+      - 3000:3000 # Example dev port
+  # Add your dev configuration here
 ```
-5. Run docker-compose up as you are used to, or define it with a specific profile.
-6. Enjoy!
 
