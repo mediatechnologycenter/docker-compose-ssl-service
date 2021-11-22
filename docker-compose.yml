@@ -14,7 +14,6 @@ services:
     restart: unless-stopped
 
   ssl-certbot-proxy:
-    image: nginx:stable-alpine
     build: ./ssl-certbot-proxy
     ports:
       - 80:80
