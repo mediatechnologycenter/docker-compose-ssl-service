@@ -2,6 +2,7 @@ version: "3.9"
 services:
   ##### Add the next two services to your docker-compose file for full ssl support ######
   ssl-service:
+    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-service
     build: ./ssl-service
     ports:
       - 443:443
