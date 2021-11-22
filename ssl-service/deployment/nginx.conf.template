@@ -3,18 +3,10 @@
 # The 443 we keep open for the normal traffic
 
 server {
-    # Reroute all requests to the secure connection except for acme challange
-    if (${NGINX_HOST} = www.${BASE_URL}) {
+    listen 80 ;
+    location / {  # the default location redirects to https
         return 301 ${NGINX_REROUTE};
-    } # managed by Certbot
-
-    if (${NGINX_HOST} = ${BASE_URL}) {
-        return 301 ${NGINX_REROUTE};
-    } # managed by Certbot
-
-	listen 80 ;
-	listen [::]:80 ;
-    return 404;
+    }    
 
     # Define the connection where certbot can find the acme challenge
     location /.well-known/acme-challenge/ { # Defined by MTC
