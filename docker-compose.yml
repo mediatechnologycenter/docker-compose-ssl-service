@@ -15,8 +15,8 @@ services:
 
   certbot:
     image: certbot/certbot
-    command: certonly -n --standalone --agree-tos --email ${SSL_EMAIL?err} -d
-      ${BASE_URL?err} -d ${WWW_URL?err}
+    command: certonly -n --standalone --agree-tos --email ${SSL_EMAIL:?err} -d
+      ${BASE_URL:?err} -d ${WWW_URL:?err}
     ports:
       - 80:80
     volumes:
@@ -27,7 +27,7 @@ services:
   frontend:
     build: ./example-frontend
     ports:
-      - ${FRONTEND_PORT?err}:${FRONTEND_PORT?err}
+      - ${FRONTEND_PORT:?err}:${FRONTEND_PORT:?err}
     restart: unless-stopped
     depends_on:
       - ssl-service
