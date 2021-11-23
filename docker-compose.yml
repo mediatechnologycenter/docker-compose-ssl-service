@@ -13,7 +13,7 @@ services:
     restart: unless-stopped
 
   ssl-certbot-proxy:
-    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-proxy:latest
+    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-certbot-proxy:latest
     build: ./ssl-certbot-proxy
     ports:
       - 80:80
