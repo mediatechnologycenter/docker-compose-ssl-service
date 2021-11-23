@@ -9,7 +9,7 @@ server {
     }    
 
     # Define the connection where certbot can find the acme challenge
-    location /.well-known/acme-challenge/ { # Defined by MTC
-        proxy_pass http://certbot # Defined by MTC
+    location /.well-known/acme-challenge/ {
+        proxy_pass http://certbot
     } # Defined by MTC
 }
