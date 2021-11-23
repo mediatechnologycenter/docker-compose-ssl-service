@@ -8,20 +8,18 @@ services:
       - 443:443
     volumes:
       - "letsencrypt:/etc/letsencrypt"
-      - "var_letsencrypt:/var/lib/letsencrypt"
     env_file:
       - .env
     restart: unless-stopped
 
   ssl-certbot-proxy:
+    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-proxy:latest
     build: ./ssl-certbot-proxy
     ports:
       - 80:80
     env_file:
       - .env
-    volumes:
-      - "letsencrypt:/etc/letsencrypt"
-      - "var_letsencrypt:/var/lib/letsencrypt"
+    restart: unless-stopped
 
   certbot:
     image: certbot/certbot
@@ -29,7 +27,6 @@ services:
       ${BASE_URL:?err} -d www.${BASE_URL:?err}
     volumes:
       - "letsencrypt:/etc/letsencrypt"
-      - "var_letsencrypt:/var/lib/letsencrypt"
 
   #  Add your frontend configuration here
   frontend:
@@ -38,4 +35,3 @@ services:
 
 volumes:
   letsencrypt: {}
-  var_letsencrypt: {}
