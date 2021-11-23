@@ -1,7 +1,3 @@
-# Configs
-firebaseConfig.json
-firebaseAdminCredentials.json
-
 # Backend
 __pycache__/
 *.py[cod]
@@ -9,8 +5,6 @@ __pycache__/
 venv
 
 # Frontend
-/frontend/ape-vue-app/coverage
-
 .DS_Store
 node_modules
 /dist
@@ -32,4 +26,3 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
-/frontend/ape-vue-app/.vscode
