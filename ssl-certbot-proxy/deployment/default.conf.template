@@ -1,0 +1,15 @@
+# Generally we have two ports availble for communication a port 80 and 443
+# Here we keep the 80 open but only for redirections to the acme challange for new certificates
+# The 443 we keep open for the normal traffic
+
+server {
+    listen 80 ;
+    location / {  # the default location redirects to https
+        return 301 ${NGINX_REROUTE};
+    }    
+
+    # Define the connection where certbot can find the acme challenge
+    location /.well-known/acme-challenge/ {
+        proxy_pass http://certbot;
+    } # Defined by MTC
+}
