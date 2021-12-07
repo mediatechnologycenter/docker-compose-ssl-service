@@ -1,70 +1,44 @@
 # ssl-certificate-docker-service
-
 <img src="https://img.shields.io/static/v1?label=status&message=in-review&color=orange">
 
-A standalone docker ssl service. It can be attached to the regular front-end application through port 81.
+A standalone docker SSL service for terminating SSL connections. It is mainly supposed to forward SSL terminated requests to a project's frontend using http, where requests can be further forwarded to the respective backends.
 
 ## Overview
-
 <img src="example-frontend/SSL-Service-Overview.png" width="500" alt="ssl-overview">
 
 ## How to use it
-
-1. Add the three services `ssl-service`, `ssl-certbot-proxy` and `certbot` to your docker-compose file and adjust your front-end service.
-
+1. Add the two following services to your docker-compose files: `ssl-service` & `certbot`
 ```yaml
   ssl-service:
-    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-service:latest
+    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-service
+    container_name: ssl-service
     ports:
-      - 443:443
+      - "443:443"
+      - "80:80"
     volumes:
       - "letsencrypt:/etc/letsencrypt"
-    env_file:
-      - .env
-    restart: unless-stopped
-
-  ssl-certbot-proxy:
-    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-certbot-proxy:latest
-    ports:
-      - 80:80
     env_file:
       - .env
     restart: unless-stopped
 
   certbot:
-    image: certbot/certbot
-    command: certonly -n --standalone --agree-tos --email ${SSL_EMAIL:?err} -d
-      ${BASE_URL:?err} -d www.${BASE_URL:?err}
+    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-service-certbot
+    container_name: certbot
+    env_file:
+      - .env
     volumes:
       - "letsencrypt:/etc/letsencrypt"
-
-  volumes:
-    letsencrypt: { }
 ```
 
-2. Add the ssl-variables to your `.env`-file or copy the existing one. Obviously adjust them to your website.
-
+2. Copy the following variables to your project's `.env` file and edit them with your data.
 ```conf
 ##### SSL ENV VARIABLES ###### 
+SSL_ENABLED = False
 BASE_URL = test-dev.mediatechnologycenter.ch
 SSL_EMAIL = mtc@inf.ethz.ch
 FRONTEND_URL = http://frontend:80
 ```
 
 3. Run `docker-compose up --build`.
-4. Enjoy!
-5. If you would like to run it without ssl use a second docker-compose file. e.g. docker-compose.dev.yml. You can run it
-   with `docker-compose up -f docker-compose.yml -f docker-compose.dev.yml`
 
-```yml
-  ssl-service:
-    profiles:
-      - disabled
-  certbot:
-    profiles:
-      - disabled
-  frontend:
-    ports:
-      - 3000:3000 # Example dev port
-  # Add your dev configuration here
-```
+Note: The SSL service can be disabled by setting `SSL_ENABLED` to `False`, in which case the `ssl-service` acts as a pure proxy.

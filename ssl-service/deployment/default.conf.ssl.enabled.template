@@ -2,6 +2,20 @@
 # Here we keep the 80 open but only for redirections to the acme challange for new certificates
 # The 443 we keep open for the normal traffic
 
+# Redirect all traffic to either certbot or https
+server {
+    listen 80 ;
+    location / {  # the default location redirects to https
+        return 301 ${NGINX_REROUTE};
+    }
+
+    # Define the connection where certbot can find the acme challenge
+    location /.well-known/acme-challenge/ {
+        proxy_pass http://certbot;
+    } # Defined by MTC
+}
+
+# Redirect traffic to either
 server {
     # General settings
     server_name ${BASE_URL};
@@ -12,9 +26,10 @@ server {
     listen [::]:443 ssl;
     listen 443 ssl;
 
-    # Reroute your requests to the wished proxies
+    # Define proxy conf here
+
+    # Reroute default route to frontend
     location / {
         proxy_pass ${FRONTEND_URL};
     }
-
 }

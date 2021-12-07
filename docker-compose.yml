@@ -2,34 +2,30 @@ version: "3.9"
 services:
   ##### Add the next three services to your docker-compose file for full ssl support ######
   ssl-service:
-    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-service:latest
+    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-service
+    container_name: ssl-service
     build: ./ssl-service
     ports:
-      - 443:443
+      - "443:443"
+      - "80:80"
     volumes:
       - "letsencrypt:/etc/letsencrypt"
-    env_file:
-      - .env
-    restart: unless-stopped
-
-  ssl-certbot-proxy:
-    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-certbot-proxy:latest
-    build: ./ssl-certbot-proxy
-    ports:
-      - 80:80
     env_file:
       - .env
     restart: unless-stopped
 
   certbot:
-    image: certbot/certbot
-    command: certonly -n --standalone --agree-tos --email ${SSL_EMAIL:?err} -d
-      ${BASE_URL:?err} -d www.${BASE_URL:?err}
+    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-service-certbot
+    container_name: certbot
+    build: ./certbot
+    env_file:
+      - .env
     volumes:
       - "letsencrypt:/etc/letsencrypt"
 
   #  Add your frontend configuration here
   frontend:
+    container_name: frontend
     build: ./example-frontend
     restart: unless-stopped
 
