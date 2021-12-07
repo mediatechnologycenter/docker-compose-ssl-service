@@ -4,9 +4,11 @@
 
 server {
     listen 80 ;
-    location / {  # the default location redirects to https
-        return 301 ${NGINX_REROUTE};
-    }    
+
+    # Reroute to frontend
+    location / {
+        proxy_pass ${FRONTEND_URL};
+    }
 
     # Define the connection where certbot can find the acme challenge
     location /.well-known/acme-challenge/ {
