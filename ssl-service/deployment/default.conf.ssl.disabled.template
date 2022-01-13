@@ -5,6 +5,8 @@
 server {
     listen 80 ;
 
+    client_max_body_size ${CLIENT_MAX_BODY_SIZE};
+
     # Reroute to frontend
     location / {
         proxy_pass ${FRONTEND_URL};
