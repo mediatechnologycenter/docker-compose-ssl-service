@@ -5,6 +5,9 @@
 # Redirect all traffic to either certbot or https
 server {
     listen 80 ;
+
+    client_max_body_size ${CLIENT_MAX_BODY_SIZE};
+
     location / {  # the default location redirects to https
         return 301 ${NGINX_REROUTE};
     }
@@ -17,14 +20,15 @@ server {
 
 # Redirect traffic to either
 server {
+    # Port listeners
+    listen [::]:443 ssl;
+    listen 443 ssl;
+
     # General settings
     server_name ${BASE_URL};
     ssl_certificate /etc/letsencrypt/live/${BASE_URL}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/${BASE_URL}/privkey.pem;
-
-    # Port listeners
-    listen [::]:443 ssl;
-    listen 443 ssl;
+    client_max_body_size ${CLIENT_MAX_BODY_SIZE};
 
     # Define proxy conf here
 
