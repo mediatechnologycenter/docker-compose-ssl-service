@@ -6,6 +6,9 @@ server {
     listen 80 ;
 
     client_max_body_size ${CLIENT_MAX_BODY_SIZE};
+    proxy_read_timeout ${NGINX_TIMEOUT};
+    proxy_connect_timeout ${NGINX_TIMEOUT};
+    proxy_send_timeout ${NGINX_TIMEOUT};
 
     # Reroute to frontend
     location / {

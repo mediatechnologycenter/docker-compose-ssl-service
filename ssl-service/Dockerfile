@@ -4,6 +4,10 @@ FROM nginx:stable
 ENV NGINX_REROUTE=https://\$host\$request_uri
 ENV NGINX_HOST=\$host
 
+# Default configuration
+ENV CLIENT_MAX_BODY_SIZE="100M"
+ENV NGINX_TIMEOUT="300"
+
 RUN apt-get update -y && \
     apt-get install bash -y
 
