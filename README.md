@@ -32,11 +32,15 @@ A standalone docker SSL service for terminating SSL connections. It is mainly su
 
 2. Copy the following variables to your project's `.env` file and edit them with your data.
 ```conf
-##### SSL ENV VARIABLES ###### 
+### SSL variables
 SSL_ENABLED = False
 BASE_URL = test-dev.mediatechnologycenter.ch
 SSL_EMAIL = mtc@inf.ethz.ch
 FRONTEND_URL = http://frontend:80
+
+### Optional nginx variables
+# CLIENT_MAX_BODY_SIZE = "200M"
+# NGINX_TIMEOUT = 300
 ```
 
 3. Run `docker-compose up --build`.
