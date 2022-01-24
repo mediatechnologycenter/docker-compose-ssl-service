@@ -23,11 +23,19 @@ services:
     volumes:
       - "letsencrypt:/etc/letsencrypt"
 
-  #  Add your frontend configuration here
+  # Add your frontend configuration here
   frontend:
     container_name: frontend
     build: ./example-frontend
     restart: unless-stopped
+
+  # Add your backend configuration here
+  backend:
+    container_name: backend
+    build: ./example-backend
+    restart: unless-stopped
+    env_file:
+      - .env
 
 volumes:
   letsencrypt: {}
