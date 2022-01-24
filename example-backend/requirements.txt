@@ -1,11 +1,11 @@
 Flask~=2.0.2
-flask_cors==3.0.10
-gunicorn==20.1.0
-debugpy>=1.4.1, < 2.0.0
-requests>=2.24.0, < 3.0.0
+flask_cors~=3.0.10
+gunicorn~=20.1.0
+debugpy~=1.4.1
+requests~=2.24.0
 pyserde~=0.4.0
 firebase_admin~=5.2.0
-flask_httpauth==4.5.0
+flask_httpauth~=4.5.0
 
 # MTC API Utils package
 git+ssh://git@gitlab.ethz.ch/mtc/libraries/api-utils.git
