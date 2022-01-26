@@ -26,8 +26,9 @@ A standalone docker SSL service for terminating SSL connections. It is mainly su
     container_name: certbot
     env_file:
       - .env
-    volumes:
-      - "letsencrypt:/etc/letsencrypt"
+    
+  volumes:
+    - "letsencrypt:/etc/letsencrypt"
 ```
 
 2. Copy the following variables to your project's `.env` file and edit them with your data.
@@ -36,12 +37,23 @@ A standalone docker SSL service for terminating SSL connections. It is mainly su
 SSL_ENABLED = False
 BASE_URL = test-dev.mediatechnologycenter.ch
 SSL_EMAIL = mtc@inf.ethz.ch
-FRONTEND_URL = http://frontend:80
+ENTRYPOINT_URL = http://frontend:80
 
 ### Optional nginx variables
 # CLIENT_MAX_BODY_SIZE = "200M"
-# NGINX_TIMEOUT = 300
+# NGINX_TIMEOUT = 300
 ```
+
+### ENV Variables documentation
+`BASE_URL` describes the DNS name for which a certificate should be retrieved. Make sure the DNS entry actually points to the machine the service is deployed on.  
+`SSL_EMAIL` specifies the mail address that is sent to letsencrypt. This address should generally be a group or list address that is independent of a single user.  
+`ENTRYPOINT_URL` defines the entrypoint url where any requests are proxied to once SSL termination has been completed. Typically this is a frontend service that performs further proxy passes for backend requests.  
+
+The following optional variables can be set in order to configure the SSL proxy:  
+`CLIENT_MAX_BODY_SIZE` represents the maximum body size for any incoming request. It is set to a default of `100M`  
+`NGINX_TIMEOUT` defines any timeouts for the SSL proxy. It is set to a default of `300` seconds 
+
+Additional configuration, such as proxy passes, locations, etc. should generally be configured on the `ENTRYPOINT_URL` service 
 
 3. Run `docker-compose up --build`.
 

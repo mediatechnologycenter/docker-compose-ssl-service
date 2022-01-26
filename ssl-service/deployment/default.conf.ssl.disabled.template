@@ -12,7 +12,7 @@ server {
 
     # Reroute to frontend
     location / {
-        proxy_pass ${FRONTEND_URL};
+        proxy_pass ${ENTRYPOINT_URL};
     }
 
     # Define the connection where certbot can find the acme challenge

@@ -8,6 +8,10 @@ ENV NGINX_HOST=\$host
 ENV CLIENT_MAX_BODY_SIZE="100M"
 ENV NGINX_TIMEOUT="300"
 
+# Support backwards compatibility
+# Set an alias for ENTRYPOINT_URL to FRONTEND_URL
+ENV ENTRYPOINT_URL=${ENTRYPOINT_URL:-"$FRONTEND_URL"}
+
 RUN apt-get update -y && \
     apt-get install bash -y
 
