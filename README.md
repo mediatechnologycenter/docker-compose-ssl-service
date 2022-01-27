@@ -54,7 +54,7 @@ ENTRYPOINT_URL = http://frontend:80
 # CLIENT_MAX_BODY_SIZE = "200M"
 # NGINX_TIMEOUT = 300
 ```
-3. Be sure that your `ENTRYPOINT_URL` is the same as your primary frontend or backend server: \
+3. Be sure that your `ENTRYPOINT_URL` is the same as your primary frontend or backend server:
    ```bash
    http://<docker-service-name>:<server-port>
    ```
