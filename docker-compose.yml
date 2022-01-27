@@ -2,7 +2,7 @@ version: "3.9"
 services:
   ##### Add the next three services to your docker-compose file for full ssl support ######
   ssl-service:
-    image: mtcpartners/ssl-service:latest
+    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-service
     container_name: ssl-service
     build: ./ssl-service
     ports:
@@ -15,13 +15,14 @@ services:
     restart: unless-stopped
 
   certbot:
-    image: mtcpartners/certbot:latest
+    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-service-certbot
     container_name: certbot
     build: ./certbot
     env_file:
       - .env
     volumes:
       - "letsencrypt:/etc/letsencrypt"
+    restart: unless-stopped
 
   # Add your frontend configuration here
   frontend:
