@@ -10,8 +10,9 @@ A standalone docker SSL service for terminating SSL connections. It is mainly su
 1. Add the two following services to your docker-compose files: `ssl-service` & `certbot`
 ```yaml
   ssl-service:
-    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-service
+    image: mtcpartners/ssl-service:latest
     container_name: ssl-service
+    build: ./ssl-service
     ports:
       - "443:443"
       - "80:80"
@@ -22,10 +23,13 @@ A standalone docker SSL service for terminating SSL connections. It is mainly su
     restart: unless-stopped
 
   certbot:
-    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-service-certbot
+    image: mtcpartners/certbot:latest
     container_name: certbot
+    build: ./certbot
     env_file:
       - .env
+    volumes:
+      - "letsencrypt:/etc/letsencrypt"
     
   volumes:
     - "letsencrypt:/etc/letsencrypt"
@@ -37,12 +41,17 @@ A standalone docker SSL service for terminating SSL connections. It is mainly su
 SSL_ENABLED = False
 BASE_URL = test-dev.mediatechnologycenter.ch
 SSL_EMAIL = mtc@inf.ethz.ch
-ENTRYPOINT_URL = http://frontend:80
+ENTRYPOINT_URL = http://frontend:81
 
 ### Optional nginx variables
 # CLIENT_MAX_BODY_SIZE = "200M"
 # NGINX_TIMEOUT = 300
 ```
+3. Be sure that your entrypoint_url is the same as your primary frontend or backend server. 
+   `http://<service-name>:<server-port>`
+   Run `docker-compose pull` followed by `docker-compose up` on your local machine to test it.
+   After that you can check `localhost:80` in your browser. 
+   Try `localhost:80/api/liveness`
 
 ### ENV Variables documentation
 `BASE_URL` describes the DNS name for which a certificate should be retrieved. Make sure the DNS entry actually points to the machine the service is deployed on.  

@@ -17,6 +17,7 @@ function App() {
         >
           SSL Service by MTC ETH
         </a>
+        <code>Try to call: "localhost:80/api/liveness", it will automatically reroute to the backend</code>
       </header>
     </div>
   );
