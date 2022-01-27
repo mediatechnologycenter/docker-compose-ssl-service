@@ -1,4 +1,4 @@
-FROM europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/miniconda:4.10.3 as test
+FROM continuumio/miniconda3:4.10.3 as test
 
 # Install api requirements
 COPY requirements.txt .

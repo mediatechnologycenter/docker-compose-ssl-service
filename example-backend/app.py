@@ -1,5 +1,32 @@
-from mtc_api_utils.api import BaseApi
+from http import HTTPStatus
 
-app = BaseApi(__name__, is_ready=lambda: True, cors_enabled=True)
+from flask import Flask, Response
+
+app = Flask(__name__)
+
+
+@app.route("/api")
+def home():
+    return Response(
+        response="Welcome to the MTC SSL-Service Backend",
+        status=HTTPStatus.OK,
+    )
+
+
+@app.route("/api/liveness")
+def liveness():
+    return Response(
+        response="liveness check: [ok]",
+        status=HTTPStatus.OK,
+    )
+
+
+@app.route("/api/readiness")
+def readiness():
+    return Response(
+        response="Service readiness: [True]",
+        status=HTTPStatus.OK,
+    )
+
 
 print("Proxy is running")
