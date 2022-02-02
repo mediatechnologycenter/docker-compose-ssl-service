@@ -39,6 +39,6 @@ server {
 
     # Reroute default route to frontend
     location / {
-        proxy_pass ${FRONTEND_URL};
+        proxy_pass ${ENTRYPOINT_URL};
     }
 }
