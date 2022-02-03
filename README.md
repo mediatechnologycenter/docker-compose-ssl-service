@@ -83,15 +83,19 @@ Note: The SSL service can be disabled by setting `SSL_ENABLED` to `False`, in wh
 
 To start the example application run:
 
-1. Install docker and docker-compose if you haven't done so.
-2. Run in main directory:
+1. Clone the repository
+```bash
+git clone https://github.com/mediatechnologycenter/docker-compose-ssl-service.git
+```
+2. Install docker and docker-compose if you haven't done so.
+3. Run in main directory:
    ```bash
    # Pull the latest images of the service
    docker-compose pull
    # Run the application
    docker-compose up
    ```
-3.Check `localhost:80` if service is running
+4.Check `localhost:80` if service is running
 
 ## Start the example application on a server
 
