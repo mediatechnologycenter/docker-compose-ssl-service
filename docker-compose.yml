@@ -16,7 +16,7 @@ version: "3.9"
 services:
   ##### Add the next three services to your docker-compose file for full ssl support ######
   ssl-service:
-    image: mtcpartners/ssl-service:latest
+    image: ethmediatechnologycenter/ssl-service:latest
     container_name: ssl-service
     build: ./ssl-service
     ports:
@@ -29,7 +29,7 @@ services:
     restart: unless-stopped
 
   certbot:
-    image: mtcpartners/certbot:latest
+    image: ethmediatechnologycenter/certbot:latest
     container_name: certbot
     build: ./certbot
     env_file:
