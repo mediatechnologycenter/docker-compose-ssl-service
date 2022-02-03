@@ -1,5 +1,5 @@
 # ssl-certificate-docker-service
-<img src="https://img.shields.io/static/v1?label=status&message=in-review&color=orange">
+<img src="https://img.shields.io/static/v1?label=status&message=approved&color=green">
 
 A standalone docker SSL service for terminating SSL connections. It is mainly supposed to forward SSL terminated requests to a project's frontend using http, where requests can be further forwarded to the respective backends.
 
@@ -59,7 +59,9 @@ ENTRYPOINT_URL = http://frontend:80
    http://<docker-service-name>:<server-port>
    ```
 
-4. If you have personalized changes to the services. Copy the folder certbot and ssl-service to your project directory and run:
+4. Run `docker-compose up` and you should be ready to go! 
+
+5. If you have personalized changes to the services. Copy the folder certbot and ssl-service to your project directory and run:
    ```bash
    docker-compose up --build
    ```
