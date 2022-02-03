@@ -17,7 +17,7 @@ A standalone docker SSL service for terminating SSL connections. It is mainly su
 1. Add the two following services to your docker-compose files: `ssl-service` & `certbot` and add the volume: `letsencrypt`
 ```yaml
   ssl-service:
-    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-service-certbot
+    image: mtcpartners/ssl-service:latest
     container_name: ssl-service
     build: ./ssl-service
     ports:
@@ -30,7 +30,7 @@ A standalone docker SSL service for terminating SSL connections. It is mainly su
     restart: unless-stopped
 
   certbot:
-    image: europe-west6-docker.pkg.dev/mtc-dev/mtc-ethz/ssl-service-certbot
+    image: mtcpartners/certbot:latest
     container_name: certbot
     build: ./certbot
     env_file:
