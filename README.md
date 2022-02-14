@@ -110,3 +110,19 @@ git clone https://github.com/mediatechnologycenter/docker-compose-ssl-service.gi
    BASE_URL = your-url-comes-here.ch
    SSL_EMAIL = your-email-comes-here.com
    ```
+
+## Citation
+
+If you would like to use the setup in a publication:
+
+```
+@misc{DockerComposeSSLService2022,
+  author = {Marc Willhaus and Thomas Steinmann},
+  title = {Docker Compose SSL Service},
+  year = {2022},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/mediatechnologycenter/neural-network-dockerfile}},
+  commit = {5dd22023a7b364d98543879cf2eb0f94d9a13e0e}
+}
+```
