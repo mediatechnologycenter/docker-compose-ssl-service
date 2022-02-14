@@ -36,7 +36,7 @@ services:
       - .env
     volumes:
       - "letsencrypt:/etc/letsencrypt"
-    # restart: unless-stopped (optional)
+    restart: unless-stopped (optional)
 
     # Add your frontend configuration here
   frontend:
